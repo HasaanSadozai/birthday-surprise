@@ -1,85 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Prank 😈</title>
+
+<style>
+/* SAME CSS (no change) */
+body {
+  margin:0;
+  font-family: Arial;
+  background: linear-gradient(135deg,#1e3c72,#2a5298);
+  color:white;
+  text-align:center;
+  overflow:hidden;
+}
+
+.hidden { display:none; }
+
+button {
+  padding:12px 20px;
+  font-size:18px;
+  margin:10px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  position:relative;
+}
+
+/* INTRO */
+#intro {
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:black;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+
+#introEmoji {
+  font-size:120px;
+  animation: up 0.8s ease;
+}
+
+#introText {
+  font-size:60px;
+  font-weight:bold;
+  color:red;
+  text-shadow:0 0 20px red,0 0 40px red;
+}
+
+@keyframes up {
+  from { transform:translateY(200px); opacity:0; }
+  to { transform:translateY(0); opacity:1; }
+}
+
+/* FINAL */
+#final {
+  font-size:40px;
+  margin-top:20%;
+}
+
+/* balloons */
+.balloon {
+  position: fixed;
+  bottom:-50px;
+  font-size:30px;
+  animation: float 6s linear infinite;
+}
+
+@keyframes float {
+  from { transform:translateY(0); }
+  to { transform:translateY(-120vh); }
+}
+
+/* confetti */
+.confetti {
+  position: fixed;
+  width:10px;
+  height:10px;
+  animation: fall 3s linear infinite;
+}
+
+@keyframes fall {
+  from { transform:translateY(-10vh); }
+  to { transform:translateY(110vh); }
+}
+</style>
+</head>
+
+<body>
+
+<audio id="music" src="https://www.myinstants.com/media/sounds/happy-birthday.mp3"></audio>
+
+<!-- INTRO -->
+<div id="intro">
+  <div id="introEmoji">🖕</div>
+  <div id="introText">F*ck You</div>
+</div>
+
+<!-- Q1 -->
+<div id="q1" class="hidden">
+<h2>Question 1</h2>
+<p>Agar tum gay ho to YES click karo</p>
+<button onclick="next(2)">YES</button>
+<button id="no1">NO</button>
+</div>
+
+<!-- Q2 -->
+<div id="q2" class="hidden">
+<h2>Question 2</h2>
+<p>Tumne kabhi marwai hai?</p>
+<button onclick="next(3)">YES</button>
+<button id="no2">NO</button>
+</div>
+
+<!-- Q3 -->
+<div id="q3" class="hidden">
+<h2>Question 3</h2>
+<p>Tumhari nuni choti hai?</p>
+<button onclick="next(4)">YES</button>
+<button id="no3">NO</button>
+</div>
+
+<!-- Q4 -->
+<div id="q4" class="hidden">
+<h2>Question 4</h2>
+<p>Chupa laga o gay mera?</p>
+<button onclick="next(5)">YES</button>
+<button id="no4">NO</button>
+</div>
+
+<!-- Q5 -->
+<div id="q5" class="hidden">
+<h2>Question 5</h2>
+<p>Azad Kashmir Zindabad?</p>
+
+<button id="ZINDABAD5">ZINDABAD</button>
+<button onclick="next(6)">MURDABAD</button>
+
+</div>
+
+<!-- Q6 -->
+<div id="q6" class="hidden">
+<h2>Question 6</h2>
+<p>Tum kawaray maroge? 😈</p>
+<button onclick="showMessage()">YES</button>
+<button id="no6">NO</button>
+</div>
+
+<!-- MESSAGE -->
+<div id="msg" class="hidden">
+<h1>Tum kawaray hi maroge 😂</h1>
+</div>
+
+<!-- FINAL -->
+<div id="final" class="hidden">
+<h1>🎉 Happy Birthday To You 🎂</h1>
+<h2>Ashir Khan Sadozai 🎉</h2>
+</div>
+
 <script>
 
 // INTRO AUTO START
 setTimeout(() => {
-  let intro = document.getElementById("intro");
-  let q1 = document.getElementById("q1");
-
-  if(intro) intro.style.display = "none";
-  if(q1) q1.classList.remove("hidden");
+  document.getElementById("intro").style.display = "none";
+  document.getElementById("q1").classList.remove("hidden");
 }, 2000);
-
 
 // NEXT
 function next(step){
   document.querySelectorAll("div[id^='q']").forEach(q=>q.classList.add("hidden"));
-
-  let nextQ = document.getElementById("q"+step);
-  if(nextQ) nextQ.classList.remove("hidden");
+  document.getElementById("q"+step).classList.remove("hidden");
 }
 
-
-// MESSAGE (SAFE VERSION)
+// MESSAGE (FIXED: q6 hide ho rahi hai ab)
 function showMessage(){
-
-  let q6 = document.getElementById("q6");
-  if(q6) q6.classList.add("hidden");
-
-  // sound
-  try{
-    let audio = new Audio("https://www.myinstants.com/media/sounds/windows-error.mp3");
-    audio.play();
-  }catch(e){}
-
-  // vibration
-  if(navigator.vibrate){
-    navigator.vibrate([200,100,200,100,400]);
-  }
-
-  // fake screen
-  let fake = document.createElement("div");
-  fake.style.position="fixed";
-  fake.style.top="0";
-  fake.style.left="0";
-  fake.style.width="100%";
-  fake.style.height="100%";
-  fake.style.background="black";
-  fake.style.color="red";
-  fake.style.display="flex";
-  fake.style.justifyContent="center";
-  fake.style.alignItems="center";
-  fake.style.fontSize="40px";
-  fake.innerHTML="⚠️ VIRUS DETECTED ⚠️";
-  document.body.appendChild(fake);
+  document.getElementById("q6").classList.add("hidden");
+  document.getElementById("msg").classList.remove("hidden");
 
   setTimeout(()=>{
-    fake.remove();
-
-    let msg = document.getElementById("msg");
-    if(msg) msg.classList.remove("hidden");
-
-    setTimeout(()=>{
-      if(msg) msg.classList.add("hidden");
-      showFinal();
-    },3000);
-
-  },2000);
+    document.getElementById("msg").classList.add("hidden");
+    showFinal();
+  },3000);
 }
-
 
 // FINAL
 function showFinal(){
+  document.getElementById("final").classList.remove("hidden");
+  document.getElementById("music").play();
 
-  let final = document.getElementById("final");
-  let music = document.getElementById("music");
-
-  if(final) final.classList.remove("hidden");
-
-  if(music){
-    music.play().catch(()=>{});
-  }
-
-  // balloons
   setInterval(()=>{
     let b=document.createElement("div");
     b.className="balloon";
@@ -88,7 +201,6 @@ function showFinal(){
     document.body.appendChild(b);
   },300);
 
-  // confetti
   setInterval(()=>{
     let c=document.createElement("div");
     c.className="confetti";
@@ -98,11 +210,8 @@ function showFinal(){
   },150);
 }
 
-
-// MOVE FUNCTION (SAFE)
+// NO BUTTON MOVE
 function move(btn){
-  if(!btn) return;
-
   btn.addEventListener("mouseover", ()=>{
     btn.style.position="absolute";
     btn.style.left=Math.random()*(window.innerWidth-100)+"px";
@@ -110,17 +219,8 @@ function move(btn){
   });
 }
 
-
-// WAIT FOR DOM (IMPORTANT FIX)
-window.onload = function(){
-
-  // NO buttons
-  ["no1","no2","no3","no4","no6"].forEach(id=>{
-    let el = document.getElementById(id);
-    if(el) move(el);
-  });
-
-  // YES5 move
+// YES5 MOVE (FIX)
+setTimeout(()=>{
   let yes5 = document.getElementById("yes5");
   if(yes5){
     yes5.addEventListener("mouseover", ()=>{
@@ -129,7 +229,19 @@ window.onload = function(){
       yes5.style.top=Math.random()*(window.innerHeight-50)+"px";
     });
   }
+},500);
 
-};
+// no buttons
+["no1","no2","no3","no4","no6"].forEach(id=>{
+  move(document.getElementById(id));
+});
 
 </script>
+
+</body>
+</html>
+
+</script>
+
+</body>
+</html>
