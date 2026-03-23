@@ -31,6 +31,41 @@ button {
   margin-top:20%;
 }
 
+/* INTRO */
+#intro {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+#finger {
+  font-size: 100px;
+  transform: translateY(200px);
+  animation: rise 1s ease-out forwards;
+}
+
+#introText {
+  font-size: 50px;
+  margin-top: 20px;
+  opacity: 0;
+  animation: showText 1s ease-in forwards;
+  animation-delay: 1s;
+}
+
+@keyframes rise {
+  to { transform: translateY(0); }
+}
+
+@keyframes showText {
+  to { opacity: 1; }
+}
+
 /* balloons */
 .balloon {
   position: fixed;
@@ -61,22 +96,52 @@ button {
 
 <body>
 
+<!-- INTRO -->
+<div id="intro">
+  <div id="finger">🖕</div>
+  <h1 id="introText">F*ck You</h1>
+</div>
+
 <audio id="music" src="https://www.myinstants.com/media/sounds/happy-birthday.mp3"></audio>
 
 <!-- Q1 -->
-<div id="q1">
+<div id="q1" class="hidden">
 <h2>Question 1</h2>
-<p>Agar tum gay ho to YES click karo</p>
+<p>Masxar tum gay ho ? YES click karo</p>
 <button onclick="next(2)">YES</button>
 <button id="no1">NO</button>
 </div>
 
-<!-- Q2 -->
+  <!-- Q2 -->
 <div id="q2" class="hidden">
 <h2>Question 2</h2>
+<p>Masxar Tumhari nuni choti hay ? YES click karo</p>
+<button onclick="next(2)">YES</button>
+<button id="no2">NO</button>
+</div>
+
+  <!-- Q3 -->
+<div id="q3" class="hidden">
+<h2>Question 3</h2>
+<p>Masxar tum nay kabi marwa e hay ? YES click karo</p>
+<button onclick="next(2)">YES</button>
+<button id="no3">NO</button>
+</div>
+
+  <!-- Q4 -->
+<div id="q4" class="hidden">
+<h2>Question 4</h2>
+<p>Masxar chupa laga o gay mera? YES click karo</p>
+<button onclick="next(2)">YES</button>
+<button id="no4">NO</button>
+</div>
+
+<!-- Q5 -->
+<div id="q5" class="hidden">
+<h2>Question 5</h2>
 <p> Tum kawaray maroge? 😈</p>
 <button onclick="showMessage()">YES</button>
-<button id="no2">NO</button>
+<button id="no5">NO</button>
 </div>
 
 <!-- MESSAGE -->
@@ -92,15 +157,23 @@ button {
 
 <script>
 
+// INTRO CONTROL
+window.onload = function() {
+  setTimeout(() => {
+    document.getElementById("intro").style.display = "none";
+    document.getElementById("q1").classList.remove("hidden");
+  }, 3000);
+}
+
 // next step
 function next(step){
-  document.getElementById("q1").classList.add("hidden");
-  document.getElementById("q2").classList.remove("hidden");
+  document.querySelectorAll("[id^='q']").forEach(q => q.classList.add("hidden"));
+  document.getElementById("q" + step).classList.remove("hidden");
 }
 
 // prank message
 function showMessage(){
-  document.getElementById("q2").classList.add("hidden");
+  document.getElementById("q5").classList.add("hidden");
   document.getElementById("msg").classList.remove("hidden");
 
   setTimeout(()=>{
@@ -113,10 +186,8 @@ function showMessage(){
 function showFinal(){
   document.getElementById("final").classList.remove("hidden");
 
-  // music
   document.getElementById("music").play();
 
-  // balloons
   setInterval(()=>{
     let b=document.createElement("div");
     b.className="balloon";
@@ -125,7 +196,6 @@ function showFinal(){
     document.body.appendChild(b);
   },300);
 
-  // confetti
   setInterval(()=>{
     let c=document.createElement("div");
     c.className="confetti";
@@ -135,7 +205,7 @@ function showFinal(){
   },150);
 }
 
-// NO button bhagega
+// NO button movement
 function move(btn){
   btn.addEventListener("mouseover", ()=>{
     btn.style.position="absolute";
@@ -144,8 +214,10 @@ function move(btn){
   });
 }
 
-move(document.getElementById("no1"));
-move(document.getElementById("no2"));
+window.onload = function(){
+  move(document.getElementById("no1"));
+  move(document.getElementById("no2"));
+};
 
 </script>
 
