@@ -5,6 +5,7 @@
 <title>Prank 😈</title>
 
 <style>
+/* SAME CSS (no change) */
 body {
   margin:0;
   font-family: Arial;
@@ -41,7 +42,7 @@ button {
 }
 
 #introEmoji {
-  font-size:120px; /* 🔥 BIG emoji */
+  font-size:120px;
   animation: up 0.8s ease;
 }
 
@@ -128,7 +129,7 @@ button {
 <!-- Q4 -->
 <div id="q4" class="hidden">
 <h2>Question 4</h2>
-<p> Chupa laga o gay mera?</p>
+<p>Chupa laga o gay mera?</p>
 <button onclick="next(5)">YES</button>
 <button id="no4">NO</button>
 </div>
@@ -176,9 +177,9 @@ function next(step){
   document.getElementById("q"+step).classList.remove("hidden");
 }
 
-// MESSAGE
+// MESSAGE (FIXED: q6 hide ho rahi hai ab)
 function showMessage(){
-  document.getElementById("q5").classList.add("hidden");
+  document.getElementById("q6").classList.add("hidden");
   document.getElementById("msg").classList.remove("hidden");
 
   setTimeout(()=>{
@@ -218,9 +219,27 @@ function move(btn){
   });
 }
 
-["no1","no2","no3","no4","no5"].forEach(id=>{
+// YES5 MOVE (FIX)
+setTimeout(()=>{
+  let yes5 = document.getElementById("yes5");
+  if(yes5){
+    yes5.addEventListener("mouseover", ()=>{
+      yes5.style.position="absolute";
+      yes5.style.left=Math.random()*(window.innerWidth-100)+"px";
+      yes5.style.top=Math.random()*(window.innerHeight-50)+"px";
+    });
+  }
+},500);
+
+// no buttons
+["no1","no2","no3","no4","no6"].forEach(id=>{
   move(document.getElementById(id));
 });
+
+</script>
+
+</body>
+</html>
 
 </script>
 
