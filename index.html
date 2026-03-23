@@ -8,7 +8,7 @@
 body {
   margin:0;
   font-family: Arial;
-  background:black;
+  background: linear-gradient(135deg,#1e3c72,#2a5298);
   color:white;
   text-align:center;
   overflow:hidden;
@@ -26,44 +26,41 @@ button {
   position:relative;
 }
 
-#final {
-  font-size:40px;
-  margin-top:20%;
-}
-
 /* INTRO */
 #intro {
-  position: fixed;
-  width: 100%;
-  height: 100vh;
-  background: black;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:black;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
 }
 
-#finger {
-  font-size: 100px;
-  transform: translateY(200px);
-  animation: rise 1s ease-out forwards;
+#introEmoji {
+  font-size:120px; /* 🔥 BIG emoji */
+  animation: up 0.8s ease;
 }
 
 #introText {
-  font-size: 50px;
-  margin-top: 20px;
-  opacity: 0;
-  animation: showText 1s ease-in forwards;
-  animation-delay: 1s;
+  font-size:60px;
+  font-weight:bold;
+  color:red;
+  text-shadow:0 0 20px red,0 0 40px red;
 }
 
-@keyframes rise {
-  to { transform: translateY(0); }
+@keyframes up {
+  from { transform:translateY(200px); opacity:0; }
+  to { transform:translateY(0); opacity:1; }
 }
 
-@keyframes showText {
-  to { opacity: 1; }
+/* FINAL */
+#final {
+  font-size:40px;
+  margin-top:20%;
 }
 
 /* balloons */
@@ -96,50 +93,50 @@ button {
 
 <body>
 
+<audio id="music" src="https://www.myinstants.com/media/sounds/happy-birthday.mp3"></audio>
+
 <!-- INTRO -->
 <div id="intro">
-  <div id="finger">🖕</div>
-  <h1 id="introText">F*ck You</h1>
+  <div id="introEmoji">🖕</div>
+  <div id="introText">F*ck You</div>
 </div>
-
-<audio id="music" src="https://www.myinstants.com/media/sounds/happy-birthday.mp3"></audio>
 
 <!-- Q1 -->
 <div id="q1" class="hidden">
 <h2>Question 1</h2>
-<p>Masxar tum gay ho ? YES click karo</p>
+<p>Agar tum gay ho to YES click karo</p>
 <button onclick="next(2)">YES</button>
 <button id="no1">NO</button>
 </div>
 
-  <!-- Q2 -->
+<!-- Q2 -->
 <div id="q2" class="hidden">
 <h2>Question 2</h2>
-<p>Masxar Tumhari nuni choti hay ? YES click karo</p>
-<button onclick="next(2)">YES</button>
+<p>Tumne kabhi marwai hai?</p>
+<button onclick="next(3)">YES</button>
 <button id="no2">NO</button>
 </div>
 
-  <!-- Q3 -->
+<!-- Q3 -->
 <div id="q3" class="hidden">
 <h2>Question 3</h2>
-<p>Masxar tum nay kabi marwa e hay ? YES click karo</p>
-<button onclick="next(2)">YES</button>
+<p>Tumhari nuni choti hai?</p>
+<button onclick="next(4)">YES</button>
 <button id="no3">NO</button>
 </div>
 
-  <!-- Q4 -->
+<!-- Q4 -->
 <div id="q4" class="hidden">
 <h2>Question 4</h2>
-<p>Masxar chupa laga o gay mera? YES click karo</p>
-<button onclick="next(2)">YES</button>
+<p>Tumne marwai hai?</p>
+<button onclick="next(5)">YES</button>
 <button id="no4">NO</button>
 </div>
 
 <!-- Q5 -->
 <div id="q5" class="hidden">
 <h2>Question 5</h2>
-<p> Tum kawaray maroge? 😈</p>
+<p>Tum kawaray maroge? 😈</p>
 <button onclick="showMessage()">YES</button>
 <button id="no5">NO</button>
 </div>
@@ -157,21 +154,19 @@ button {
 
 <script>
 
-// INTRO CONTROL
-window.onload = function() {
-  setTimeout(() => {
-    document.getElementById("intro").style.display = "none";
-    document.getElementById("q1").classList.remove("hidden");
-  }, 3000);
-}
+// INTRO AUTO START
+setTimeout(() => {
+  document.getElementById("intro").style.display = "none";
+  document.getElementById("q1").classList.remove("hidden");
+}, 2000);
 
-// next step
+// NEXT
 function next(step){
-  document.querySelectorAll("[id^='q']").forEach(q => q.classList.add("hidden"));
-  document.getElementById("q" + step).classList.remove("hidden");
+  document.querySelectorAll("div[id^='q']").forEach(q=>q.classList.add("hidden"));
+  document.getElementById("q"+step).classList.remove("hidden");
 }
 
-// prank message
+// MESSAGE
 function showMessage(){
   document.getElementById("q5").classList.add("hidden");
   document.getElementById("msg").classList.remove("hidden");
@@ -182,10 +177,9 @@ function showMessage(){
   },3000);
 }
 
-// final screen
+// FINAL
 function showFinal(){
   document.getElementById("final").classList.remove("hidden");
-
   document.getElementById("music").play();
 
   setInterval(()=>{
@@ -205,7 +199,7 @@ function showFinal(){
   },150);
 }
 
-// NO button movement
+// NO BUTTON MOVE
 function move(btn){
   btn.addEventListener("mouseover", ()=>{
     btn.style.position="absolute";
@@ -214,10 +208,9 @@ function move(btn){
   });
 }
 
-window.onload = function(){
-  move(document.getElementById("no1"));
-  move(document.getElementById("no2"));
-};
+["no1","no2","no3","no4","no5"].forEach(id=>{
+  move(document.getElementById(id));
+});
 
 </script>
 
