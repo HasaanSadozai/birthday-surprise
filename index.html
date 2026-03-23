@@ -1,34 +1,42 @@
-<!-- sirf SCRIPT ka part replace karna hai -->
 <script>
 
 // INTRO AUTO START
 setTimeout(() => {
-  document.getElementById("intro").style.display = "none";
-  document.getElementById("q1").classList.remove("hidden");
+  let intro = document.getElementById("intro");
+  let q1 = document.getElementById("q1");
+
+  if(intro) intro.style.display = "none";
+  if(q1) q1.classList.remove("hidden");
 }, 2000);
+
 
 // NEXT
 function next(step){
   document.querySelectorAll("div[id^='q']").forEach(q=>q.classList.add("hidden"));
-  document.getElementById("q"+step).classList.remove("hidden");
+
+  let nextQ = document.getElementById("q"+step);
+  if(nextQ) nextQ.classList.remove("hidden");
 }
 
-// MESSAGE (UPGRADED)
+
+// MESSAGE (SAFE VERSION)
 function showMessage(){
 
-  // Q6 hide
-  document.getElementById("q6").classList.add("hidden");
+  let q6 = document.getElementById("q6");
+  if(q6) q6.classList.add("hidden");
 
-  // 🔊 LOUD SOUND
-  let audio = new Audio("https://www.myinstants.com/media/sounds/windows-error.mp3");
-  audio.play().catch(()=>{});
+  // sound
+  try{
+    let audio = new Audio("https://www.myinstants.com/media/sounds/windows-error.mp3");
+    audio.play();
+  }catch(e){}
 
-  // 📳 VIBRATION (mobile)
+  // vibration
   if(navigator.vibrate){
     navigator.vibrate([200,100,200,100,400]);
   }
 
-  // ⚠️ FAKE VIRUS SCREEN
+  // fake screen
   let fake = document.createElement("div");
   fake.style.position="fixed";
   fake.style.top="0";
@@ -44,25 +52,34 @@ function showMessage(){
   fake.innerHTML="⚠️ VIRUS DETECTED ⚠️";
   document.body.appendChild(fake);
 
-  // 2 sec baad normal message
   setTimeout(()=>{
     fake.remove();
 
-    document.getElementById("msg").classList.remove("hidden");
+    let msg = document.getElementById("msg");
+    if(msg) msg.classList.remove("hidden");
 
     setTimeout(()=>{
-      document.getElementById("msg").classList.add("hidden");
+      if(msg) msg.classList.add("hidden");
       showFinal();
     },3000);
 
   },2000);
 }
 
+
 // FINAL
 function showFinal(){
-  document.getElementById("final").classList.remove("hidden");
-  document.getElementById("music").play();
 
+  let final = document.getElementById("final");
+  let music = document.getElementById("music");
+
+  if(final) final.classList.remove("hidden");
+
+  if(music){
+    music.play().catch(()=>{});
+  }
+
+  // balloons
   setInterval(()=>{
     let b=document.createElement("div");
     b.className="balloon";
@@ -71,6 +88,7 @@ function showFinal(){
     document.body.appendChild(b);
   },300);
 
+  // confetti
   setInterval(()=>{
     let c=document.createElement("div");
     c.className="confetti";
@@ -80,8 +98,11 @@ function showFinal(){
   },150);
 }
 
-// NO BUTTON MOVE
+
+// MOVE FUNCTION (SAFE)
 function move(btn){
+  if(!btn) return;
+
   btn.addEventListener("mouseover", ()=>{
     btn.style.position="absolute";
     btn.style.left=Math.random()*(window.innerWidth-100)+"px";
@@ -89,8 +110,17 @@ function move(btn){
   });
 }
 
-// YES5 MOVE
-setTimeout(()=>{
+
+// WAIT FOR DOM (IMPORTANT FIX)
+window.onload = function(){
+
+  // NO buttons
+  ["no1","no2","no3","no4","no6"].forEach(id=>{
+    let el = document.getElementById(id);
+    if(el) move(el);
+  });
+
+  // YES5 move
   let yes5 = document.getElementById("yes5");
   if(yes5){
     yes5.addEventListener("mouseover", ()=>{
@@ -99,11 +129,7 @@ setTimeout(()=>{
       yes5.style.top=Math.random()*(window.innerHeight-50)+"px";
     });
   }
-},500);
 
-// no buttons
-["no1","no2","no3","no4","no6"].forEach(id=>{
-  move(document.getElementById(id));
-});
+};
 
 </script>
